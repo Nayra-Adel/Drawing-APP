@@ -1,0 +1,226 @@
+#include <iostream>
+#include "Scene.h"
+#include <string>
+#include <fstream>
+#include <iostream>
+using namespace std;
+
+Scene::Scene():width_screen(20),height_screan(20)
+{
+    arr = new std::string* [width_screen];
+    for(int i =0 ; i<width_screen; i++)
+    {
+        arr[i] = new std::string[height_screan];
+
+    }
+    for (int i=0; i<width_screen; i++)
+    {
+        for(int c=0; c<height_screan; c++)
+        {
+            arr[i][c]=" ";
+        }
+    }
+}
+
+Scene::Scene(int w,int h):width_screen(w),height_screan(h)
+{
+
+    arr = new string* [width_screen];
+    for(int i =0 ; i<width_screen; i++)
+    {
+        arr[i] = new string[height_screan];
+    }
+    for (int i=0; i<width_screen; i++)
+    {
+        for(int c=0; c<height_screan; c++)
+        {
+            arr[i][c]=' ';
+        }
+
+    }
+
+}
+istream &operator>>(istream &input,Scene &s)
+{
+    string inputtStr= "  ";
+    cout<<"Input Width Of Scene";
+    input>>s.width_screen;
+    cout<<"Input Height Of Scene";
+    input>>s.height_screan;
+
+    s.arr = new string* [s.width_screen];
+    for(int i =0 ; i<s.width_screen; i++)
+    {
+        s.arr[i] = new string[s.height_screan];
+    }
+    for (int i=0; i<s.width_screen; i++)
+    {
+        for(int c=0; c<s.height_screan; c++)
+        {
+            s.arr[i][c]=' ';
+        }
+
+    }
+    /*
+    for (int i=0; i<s.width_screen; i++)
+    {
+        for(int c=0; c<s.height_screan; c++)
+        {
+            input >>inputtStr;
+            if (inputtStr.compare("*")==0)
+                s.arr[i][c] = inputtStr;
+            else if (inputtStr.compare("(")==0)
+                s.arr[i][c] = "  ";
+                else s.arr[i][c] = "  ";
+        }
+
+    }
+    */
+    return input;
+}
+ostream &operator<<(ostream &output,Scene &s)
+{
+    output<<"....Scene...."<<endl;
+
+    for (int i=0; i<s.width_screen; i++)
+    {
+        for(int c=0; c<s.height_screan; c++)
+        {
+            output<<s.arr[i][c];
+        }
+        output<<endl;
+    }
+    return output;
+
+
+}
+
+void Scene::draw ()
+{
+    for(int i=0; i<width_screen; i++)
+    {
+        for(int j=0; j<height_screan; j++)
+        {
+            std::cout<<arr[i][j];
+        }
+        std::cout<<std::endl;
+    }
+}
+
+Scene::Scene(const Scene &obj)
+{
+    width_screen=obj.width_screen;
+    height_screan=obj.height_screan;
+    std::string **arr = new std::string* [width_screen];
+    for(int i =0 ; i<width_screen; i++)
+    {
+        arr[i] = new std::string[height_screan];
+    }
+    for(int z=0; z<width_screen; z++)
+    {
+        for(int x=0; x< height_screan; x++)
+        {
+            arr[z][x]=obj.arr[z][x];
+        }
+    }
+}
+
+Scene Scene :: operator = (const Scene & obj)
+{
+    width_screen=obj.width_screen;
+    height_screan=obj.height_screan;
+    for(int i=0; i<width_screen; i++)
+    {
+        for(int j=0; j<height_screan; j++)
+        {
+            delete []arr[i];
+        }
+
+        delete []arr;
+    }
+    std::string **arr = new std::string* [width_screen];
+    for(int i =0 ; i<width_screen; i++)
+    {
+        arr[i] = new std::string[height_screan];
+    }
+    for(int z=0; z<width_screen; z++)
+    {
+        for(int x=0; x< height_screan; x++)
+        {
+            arr[z][x]=obj.arr[z][x];
+        }
+    }
+    return obj;
+}
+
+//make error with return 0 in the default case in the switch
+
+
+Scene::~Scene()
+
+{
+
+    for(int j=0; j<width_screen; j++)
+    {
+        delete []arr[j];
+    }
+
+    delete []arr;
+
+}
+//Let's think how we going to read the scene then we can guess how we going to write it!
+void Scene::saveToFile(ofstream& fileHandler)
+{
+// Here we assume that the file is opened and ready to be read!
+//first let's write width and height of the scene
+    fileHandler<<width_screen <<" "<< height_screan <<" "; // This is going to be write like this 5 5
+// with spaces between them.
+
+
+// then we write here the scene array
+// but instead of writing "Space" we write another character OK ?
+    for(int i=0; i<width_screen; i++)
+    {
+        for(int j=0; j<height_screan; j++)
+        {
+            if(arr[i][j].compare("*")==0)
+                fileHandler<<arr[i][j]<<" ";
+            else  // This is the case of Space we will choose another character like? #
+                fileHandler << "#"<<" ";
+        }
+
+    }
+    cout<<"Ended saving from file \n\n";
+}
+
+void Scene::loadFromFile(std::ifstream& fileHandler)
+{
+    //fill this function
+    string ch;
+    //int w,h;
+    fileHandler>>width_screen>>height_screan;
+
+    
+    for(int i=0; i<width_screen; i++)
+    {
+        for(int j=0; j<height_screan; j++)
+        {
+            fileHandler>>ch;
+
+            if(ch.compare("*")==0)
+            {
+                arr[i][j]=ch;
+
+            }
+            else if(ch.compare("#")==0)
+            {
+             arr[i][j]=" ";
+
+            }
+        }
+
+    }
+
+    cout<<"Ended loading from file \n\n";
+}
+

@@ -1,0 +1,63 @@
+#ifndef SCENE_H
+#define SCENE_H
+#include <string>
+#include <iostream>
+using namespace std;
+
+class Scene
+{
+private:
+    int width_screen,height_screan;
+public:
+    std::string **arr;
+
+    void set_width_screen (int w)
+    {
+        width_screen=w;
+    }
+    void set_height_screan (int h)
+    {
+        height_screan=h;
+    }
+    int get_width_screen()
+    {
+        return width_screen;
+    }
+    int get_height_screan()
+    {
+        return height_screan;
+    }
+
+    Scene();
+    Scene(int w,int h);
+    void draw ();
+
+    Scene(const Scene &obj);
+    Scene operator = (const Scene & obj);
+
+    class Array
+    {
+    public:
+        Array(string * arr):arr1(arr) {}
+        string& operator[](int index)
+        {
+            return arr1[index];
+        }
+
+        string* arr1;
+
+    };
+    Array operator[](int index)
+    {
+        return Array(arr[index]);
+    }
+
+    friend istream &operator>>(istream &input,Scene &s);
+    friend ostream &operator<<(ostream &output,Scene &s);
+    void saveToFile(ofstream &fileHandler);
+    void loadFromFile(ifstream& fileHandler);
+    ~Scene();
+
+};
+
+#endif // SCENE_H

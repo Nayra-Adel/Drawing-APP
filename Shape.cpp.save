@@ -1,0 +1,21 @@
+#include "Shape.h"
+
+Shape::Shape(Scene & s): c(s) {}
+
+Shape::Shape(int x, Scene & s): c(s)
+{
+    this-> x=x;
+}
+
+Shape::Shape(int x, int y,double height, Scene & s): c(s)
+{
+    this-> x=x;
+    this-> y=y;
+    this-> height=height;
+}
+
+void Shape::Draw() {}
+Shape::~Shape() {
+
+if()
+}

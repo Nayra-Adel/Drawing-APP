@@ -1,0 +1,162 @@
+#include <iostream>
+#include<fstream>
+#include<cstring>
+#include "Shape.h"
+#include "Scene.h"
+#include "Square.h"
+#include "Horizontal_Line.h"
+#include "Vertical_Line.h"
+#include "Rectangle.h"
+#include "Triangle.h"
+#include "Circle.h"
+using namespace std;
+
+
+int main ()
+{
+    /*
+    Scene c;
+    cout<<c[0][0];
+    c[0][0] ="*";
+    cout<<c[0][0];
+    */
+
+    Scene sc;
+    cin>>sc;
+    int choose;
+
+    for (int v=1; v!=0; v++)
+    {
+        Shape *s=NULL;
+        int height,width,x,y;
+        cout<<"Enter what you want to draw"<<endl;
+        cout<<"1>>Square"<<"\n"<<"2>>Rectangle"<<"\n"<<"3>>Triangle"<<"\n"
+        <<"4>>Horizontal_Line"<<"\n"<<"5>>Vertical_Line"<<
+        "\n"<<"6>>Circle"<<"\n"<<"7>>Save file"<<"\n"<<"8>>load file"<<"\n"<< "press any thing for " <<"Exit"<<"\n";
+        cin>>choose;
+        switch (choose)
+        {
+        case 1:
+        {
+            cout <<"what's the height of the square"<<endl;
+            cin>>height;
+            cout<<"where did you want to put it"<<endl;
+            cout<<"Enter the first point in your square at the left that start in"<<endl;
+            cin>>x>>y;
+            s=new Square(x,y,height,sc);
+            s->Draw();
+            break;
+        }
+        case 2:
+        {
+
+            cout <<"what's the height and the width of the Rectangle"<<endl;
+            cin>>height>>width;
+            cout<<"where did you want to put it"<<endl;
+            cout<<"Enter the first point in your Rectangle at the left that start in"<<endl;
+            cin>>x>>y;
+            s=new Rectangle(x,y,height,width,sc);
+            s->Draw();
+            break;
+        }
+        case 3:
+        {
+
+            cout <<"what's the height of the Triangle"<<endl;
+            cin>>height;
+            cout<<"where did you want to put it"<<endl;
+            cout<<"Enter the first point in your Triangle at the left that start in"<<endl;
+            cin>>x>>y;
+            s=new Triangle(x,y,height,sc);
+            s->Draw();
+            break;
+        }
+        case 4:
+        {
+
+            cout <<"what's the height of the Horizontal_Line"<<endl;
+            cin>>height;
+            cout<<"where did you want to put it"<<endl;
+            cout<<"Enter the first point in your Horizontal_Line at the left that start in"<<endl;
+            cin>>x>>y;
+            s=new Horizontal_Line(x,y,height,sc);
+            s->Draw();
+            break;
+        }
+        case 5:
+        {
+
+            cout <<"what's the height of the Vertical_Line"<<endl;
+            cin>>height;
+            cout<<"where did you want to put it"<<endl;
+            cout<<"Enter the first point in your Vertical_Line at the left that start in"<<endl;
+            cin>>x>>y;
+            s=new Vertical_Line(x,y,height,sc);
+            s->Draw();
+            break;
+        }
+        case 6:
+        {
+
+            cout <<"what's the radius of the Circle"<<endl;
+            cin>>height;
+            cout<<"where did you want to put it"<<endl;
+            cout<<"Enter the first point in your Circle at the left that start in"<<endl;
+            cin>>x>>y;
+            s=new Circle(x,y,height,sc);
+            s->Draw();
+            break;
+        }
+        case 7:
+        {
+            //Let's ask the user to enter the file he wnats to save it too.
+            cout<<"Save file to: ..\n";
+            string fileName=" ";
+            cin>>fileName;
+            //fter that we need to open that file and have a handler to deal with it
+
+            ofstream file(fileName.c_str(),std::ofstream::out|std::ofstream::trunc);
+            if(file.is_open())
+            {
+                //tHIS Code will be executed if the file opened successfully
+                sc.saveToFile(file);
+            }
+            else cout << "File is not opened";
+            //We should not forget to close the file
+            file.close();
+            break;
+        }
+        case 8:
+        {
+            cout<<"load from file : ..\n";
+            string fileName=" ";
+            cin>>fileName;
+            ifstream file(fileName.c_str(),std::ifstream::in);
+            if(file.is_open())
+            {
+                sc.loadFromFile(file);
+            }
+            else cout << "File is not opened";
+
+            file.close();
+
+            break;
+        }
+        case 9: // Show data
+            {
+                cout<<"........... Scene NOra ...........\n";
+
+                //or
+                cout<<sc;
+                break;
+            }
+        default:
+            return 0;
+        }
+
+
+    }
+
+    return 0;
+}
+
